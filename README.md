@@ -13,7 +13,7 @@ out collectively by the network. Babocoin Core is the name of open source
 software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the BitcoinTK Core software, see [https://babocoin.io](https://babocoin.io).
+the Babocoin Core software, see [https://babocoin.io](https://babocoin.io).
 
 License
 -------
@@ -26,7 +26,7 @@ Development Process
 
 The `master` branch is regularly built and tested, but is not guaranteed to be
 completely stable. [Tags](https://github.com/Babocoin/Babocoin/tags) are created
-regularly to indicate new official, stable release versions of BitcoinTK Core.
+regularly to indicate new official, stable release versions of Babocoin Core.
 
 The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md)
 and useful hints for developers can be found in [doc/developer-notes.md](doc/developer-notes.md).
@@ -35,7 +35,7 @@ The developer [mailing list](https://groups.google.com/forum/#!forum/babocoin-de
 should be used to discuss complicated or controversial changes before working
 on a patch set.
 
-Developer IRC can be found on Freenode at #bitcointk-dev.
+Developer IRC can be found on Freenode at #babocoin-dev.
 
 Testing
 -------
@@ -69,7 +69,7 @@ Translations
 ------------
 
 We only accept translation fixes that are submitted through [Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
-Translations are converted to BitcoinTK periodically.
+Translations are converted to Babocoin periodically.
 
 Translations are periodically pulled from Transifex and merged into the git repository. See the
 [translation process](doc/translation_process.md) for details on how this works.
