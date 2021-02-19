@@ -1,0 +1,92 @@
+#!/sbin/openrc-run
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/babocoin/.babocoin" ]; then
+	BABOCOIND_DEFAULT_DATADIR="/var/lib/babocoin/.babocoin"
+else
+	BABOCOIND_DEFAULT_DATADIR="/var/lib/babocoind"
+fi
+
+BABOCOIND_CONFIGFILE=${BABOCOIND_CONFIGFILE:-/etc/babocoin/babocoin.conf}
+BABOCOIND_PIDDIR=${BABOCOIND_PIDDIR:-/var/run/babocoind}
+BABOCOIND_PIDFILE=${BABOCOIND_PIDFILE:-${BABOCOIND_PIDDIR}/babocoind.pid}
+BABOCOIND_DATADIR=${BABOCOIND_DATADIR:-${BABOCOIND_DEFAULT_DATADIR}}
+BABOCOIND_USER=${BABOCOIND_USER:-${BABOCOIN_USER:-babocoin}}
+BABOCOIND_GROUP=${BABOCOIND_GROUP:-babocoin}
+BABOCOIND_BIN=${BABOCOIND_BIN:-/usr/bin/babocoind}
+BABOCOIND_NICE=${BABOCOIND_NICE:-${NICELEVEL:-0}}
+BABOCOIND_OPTS="${BABOCOIND_OPTS:-${BABOCOIN_OPTS}}"
+
+name="Babocoin Core Daemon"
+description="Babocoin cryptocurrency P2P network daemon"
+
+command="/usr/bin/babocoind"
+command_args="-pid=\"${BABOCOIND_PIDFILE}\" \
+		-conf=\"${BABOCOIND_CONFIGFILE}\" \
+		-datadir=\"${BABOCOIND_DATADIR}\" \
+		-daemon \
+		${BABOCOIND_OPTS}"
+
+required_files="${BABOCOIND_CONFIGFILE}"
+start_stop_daemon_args="-u ${BABOCOIND_USER} \
+			-N ${BABOCOIND_NICE} -w 2000"
+pidfile="${BABOCOIND_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${BABOCOIND_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${BABOCOIND_USER}:${BABOCOIND_GROUP}" \
+	"${BABOCOIND_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${BABOCOIND_USER}:${BABOCOIND_GROUP}" \
+	"${BABOCOIND_PIDDIR}"
+
+	checkpath -f \
+	-o ${BABOCOIND_USER}:${BABOCOIND_GROUP} \
+	-m 0660 \
+	${BABOCOIND_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${BABOCOIND_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run babocoind."
+		eerror "The setting must appear in ${BABOCOIND_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following "
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Babocoin Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

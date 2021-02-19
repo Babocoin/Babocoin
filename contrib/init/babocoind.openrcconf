@@ -1,0 +1,33 @@
+# /etc/conf.d/babocoind: config file for /etc/init.d/babocoind
+
+# Config file location
+#BABOCOIND_CONFIGFILE="/etc/babocoin/babocoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $BABOCOIND_USER)
+#BABOCOIND_PIDDIR="/var/run/babocoind"
+
+# What filename to give the pidfile
+#BABOCOIND_PIDFILE="${BABOCOIND_PIDDIR}/babocoind.pid"
+
+# Where to write babocoind data (be mindful that the blockchain is large)
+#BABOCOIND_DATADIR="/var/lib/babocoind"
+
+# User and group to own babocoind process
+#BABOCOIND_USER="babocoin"
+#BABOCOIND_GROUP="babocoin"
+
+# Path to babocoind executable
+#BABOCOIND_BIN="/usr/bin/babocoind"
+
+# Nice value to run babocoind under
+#BABOCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#BABOCOIND_OPTS=""
+
+# The timeout in seconds OpenRC will wait for babocoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+BABOCOIND_SIGTERM_TIMEOUT=60

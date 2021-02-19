@@ -1,0 +1,4 @@
+qt/qt_libbabocoinqt_a-qrc_babocoin.o: qt/qrc_babocoin.cpp \
+ /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:
