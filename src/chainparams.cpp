@@ -114,10 +114,10 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0x39;
-        pchMessageStart[1] = 0x76;
-        pchMessageStart[2] = 0x92;
-        pchMessageStart[3] = 0xa7;
+        pchMessageStart[0] = 0x42;
+        pchMessageStart[1] = 0x41;
+        pchMessageStart[2] = 0x42;
+        pchMessageStart[3] = 0x4f;
         nDefaultPort = 29724;
         nPruneAfterHeight = 100000;
 
@@ -134,8 +134,8 @@ public:
         vSeeds.emplace_back("104.156.239.213");
         vSeeds.emplace_back("141.164.44.204");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,26);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,25);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,85); // b
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,25); // B
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,153);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
